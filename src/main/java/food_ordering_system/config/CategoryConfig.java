@@ -13,7 +13,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class CategoryConfig {
 
     /**
-     * @Bean registers the return object (WebMvcConfigurer) as a manageable Spring bean.
+     * (@)Bean registers the return object (WebMvcConfigurer) as a manageable Spring bean.
      * This allows Spring's web engine to automatically pick up and enforce these rules.
      */
     @Bean
@@ -24,14 +24,10 @@ public class CategoryConfig {
             public void addCorsMappings(CorsRegistry registry) {
                 // Defines the URL patterns and rules for Cross-Origin Resource Sharing (CORS)
                 registry.addMapping("/api/**")
-                        
                         // Allows requests from any external web domain or port (e.g., localhost:3000 for React)
-                        .allowedOrigins("*") 
-                        
-                        // Security Restriction: Only HTTP GET requests are permitted from external origins
-                        // Any external POST, PUT, or DELETE attempts will be automatically blocked
-                        .allowedMethods("GET") 
-                        
+                        .allowedOrigins("*")
+                        // Updated to permit all required CRUD operations for our tasks
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         // Allows any HTTP request headers to be passed through to the API
                         .allowedHeaders("*");
             }
