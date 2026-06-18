@@ -1,4 +1,4 @@
-package food_ordering_system.response;
+package food_ordering_system.Response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
