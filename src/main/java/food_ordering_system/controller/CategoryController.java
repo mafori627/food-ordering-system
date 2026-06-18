@@ -1,6 +1,7 @@
 package food_ordering_system.controller;
 
 import food_ordering_system.dto.CategoryDTO;
+import food_ordering_system.response.Response;
 import food_ordering_system.service.CategoryService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -10,87 +11,85 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * (@)RestController marks this class as an API entry point.
- * It automatically converts Java objects returned by methods directly into JSON format for the client.
+ * REST Controller responsible for handling HTTP requests related to Categories.
+ * Provides endpoints for creating, retrieving, updating, and deleting category records.
+ * All endpoint responses are standardized using the generic {@link Response} wrapper.
  */
 @RestController
-/**
- * @RequestMapping defines the base URL path for this entire class.
- * All endpoints inside this controller will start with "/api/categories".
- */
 @RequestMapping("/api/categories")
 public class CategoryController {
 
-    // Dependency injection placeholder for the service layer containing business logic
     private final CategoryService service;
 
     /**
-     * Constructor Injection: Spring automatically injects the CategoryService bean here.
-     * This establishes the connection between the controller and the service layer.
+     * Constructor Injection to establish dependency decoupling from the service layer.
+     * Spring Boot automatically wires up the CategoryService bean resource here.
      */
     public CategoryController(CategoryService service) {
         this.service = service;
     }
 
     /**
-     * (@)GetMapping routes HTTP GET requests targeted at "/api/categories" to this method.
-     * It fetches data and returns it to the client.
-     * 
-     * (@))return A list of CategoryDTO objects serialized as a JSON array.
+     * Fetch all available category resources from the system.
+     *
+     * @return A list of CategoryDTO payloads wrapped inside a standardized success envelope.
      */
     @GetMapping
-    public ResponseEntity<List<CategoryDTO>> getCategories() {
-        // Calls the service layer to grab category items from the database and returns them
-        return ResponseEntity.ok(service.getAllCategories());
+    public ResponseEntity<Response<List<CategoryDTO>>> getCategories() {
+        List<CategoryDTO> categories = service.getAllCategories();
+        return ResponseEntity.ok(Response.success("All categories retrieved successfully", categories));
     }
 
     /**
-     * [Task 4.1] GET /api/categories/{id}
-     * Routes HTTP GET requests targeted at a specific category identifier.
-     * 
-     * (@)param id The primary identifier key of the category entity.
-     * (@)return The matching CategoryDTO with an HTTP 200 OK status.
+     * Fetch a distinct category matching the unique id reference segment.
+     *
+     * @param id The primary dynamic key identifier extracted directly from the path variable.
+     * @return The target CategoryDTO data object nested inside the success data wrapper payload.
      */
     @GetMapping("/{id}")
-    public ResponseEntity<CategoryDTO> getCategoryById(@PathVariable Long id) {
-        return ResponseEntity.ok(service.getCategoryById(id));
+    public ResponseEntity<Response<CategoryDTO>> getCategoryById(@PathVariable Long id) {
+        CategoryDTO dto = service.getCategoryById(id);
+        return ResponseEntity.ok(Response.success("Category retrieved", dto));
     }
 
     /**
-     * [Task 4.2] POST /api/categories
-     * Processes incoming payload parameters to create a new category record.
-     * 
-     * (@)param dto The validated data payload model from the client request body.
-     * (@)return The newly saved CategoryDTO resource along with an HTTP 201 Created status.
+     * Process an incoming payload blueprint to insert a fresh category row record.
+     * Triggers active input constraint checks using the {@link Valid} annotation filter.
+     *
+     * @param dto The data model passed inside the incoming client request transmission body.
+     * @return The newly saved resource with an HTTP 201 Created server response status block.
      */
     @PostMapping
-    public ResponseEntity<CategoryDTO> addCategory(@Valid @RequestBody CategoryDTO dto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.addCategory(dto));
+    public ResponseEntity<Response<CategoryDTO>> addCategory(@Valid @RequestBody CategoryDTO dto) {
+        CategoryDTO savedCategory = service.addCategory(dto);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(Response.success("Category created successfully", savedCategory));
     }
 
     /**
-     *PUT /api/categories/{id}
-     * Modifies properties on an existing category model referenced by its key identifier.
-     * 
-     * (@)param id The key identifier target of the record.
-     * (@)param dto The fresh values inside our incoming request data structure.
-     * (@)return The updated CategoryDTO record with an HTTP 200 OK status.
+     * Update the structural attributes of an active category database entity record.
+     * Runs automatic intercept checks to catch bad strings before reaching business logic.
+     *
+     * @param id The structural database record identifier target.
+     * @param dto The modified content values mapped from the JSON payload map.
+     * @return The altered data model reflection state back with a success note update shell.
      */
     @PutMapping("/{id}")
-    public ResponseEntity<CategoryDTO> updateCategory(@PathVariable Long id, @Valid @RequestBody CategoryDTO dto) {
-        return ResponseEntity.ok(service.updateCategory(id, dto));
+    public ResponseEntity<Response<CategoryDTO>> updateCategory(@PathVariable Long id, @Valid @RequestBody CategoryDTO dto) {
+        CategoryDTO updatedCategory = service.updateCategory(id, dto);
+        return ResponseEntity.ok(Response.success("Category updated successfully", updatedCategory));
     }
 
     /**
-     *  DELETE /api/categories/{id}
-     * Removes an active category entity completely out of our data storage layer.
-     * 
-     * (@)param id The target key identifier to purge.
-     * (@)return An empty response container showing a clean HTTP 204 No Content status.
+     * Permanently purge an indexed category object out of the storage persistence space layer.
+     * Returns an explicit success flag wrapper carrying a null data body to the consumer.
+     *
+     * @param id The target primary key identifier to isolate and drop.
+     * @return A standard HTTP 200 execution packet wrapper containing zero object elements.
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
+    public ResponseEntity<Response<Void>> deleteCategory(@PathVariable Long id) {
         service.deleteCategory(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(Response.success("Category deleted successfully", null));
     }
 }
