@@ -52,4 +52,30 @@ JSON JavaScript Object Notation is a lightweight, human-readable format used for
 9. What is Dependency Injection?
 Dependency Injection is a software design pattern used to achieve Inversion of Control (IoC) between classes and their dependencies. Instead of a Java class manually creating an instance of another helper class using the `new` keyword, the Spring framework creates the object beforehand and automatically passes (injects) it into the class when needed (often using the `@Autowired` annotation).
 
+API Response Format
+
+All API endpoints return a standardized, unified JSON wrapper. This ensures a consistent structure for frontend consumers, providing explicit status codes, operational messaging, data payloads, and ISO timestamps.
+
+Sample Success Response (`GET /api/categories/1`)
+json
+{
+  "statusCode": 200,
+  "message": "Category retrieved",
+  "data": {
+    "id": 1,
+    "name": "Burgers",
+    "description": "Flame-grilled gourmet beef and chicken burgers"
+  },
+  "timestamp": "2026-06-18T21:14:32"
+}
+
+
+Sample Empty/Action Response (`DELETE /api/categories/1`)
+
+{
+  "statusCode": 200,
+  "message": "Category deleted successfully",
+  "timestamp": "2026-06-18T21:15:04"
+}
+
 
