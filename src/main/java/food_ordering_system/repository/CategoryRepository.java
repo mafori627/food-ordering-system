@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- * @Repository marks this interface as a data access layer component.
+ * (@)Repository marks this interface as a data access layer component.
  * It tells Spring Boot to handle database exceptions and turn them into clean Spring exceptions.
  */
 @Repository

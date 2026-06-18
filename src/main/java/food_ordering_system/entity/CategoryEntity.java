@@ -3,7 +3,7 @@ package food_ordering_system.entity;
 import jakarta.persistence.*;
 
 /**
- * @Entity tells Spring Boot and Hibernate that this Java class is a database model.
+ * (@)Entity tells Spring Boot and Hibernate that this Java class is a database model.
  * Each object created from this class represents a specific row inside a database table.
  */
 @Entity
@@ -15,8 +15,8 @@ import jakarta.persistence.*;
 public class CategoryEntity {
 
     /**
-     * @Id marks this specific field as the primary key of the database table.
-     * @GeneratedValue specifies that the ID column is auto-incrementing. 
+     * (@)Id marks this specific field as the primary key of the database table.
+     * (@)GeneratedValue specifies that the ID column is auto-incrementing. 
      * GenerationType.IDENTITY leaves the ID numbering assignment entirely up to your MySQL database.
      */
     @Id
@@ -26,13 +26,14 @@ public class CategoryEntity {
     // This field maps directly to the column named "name" inside your MySQL category table.
     private String name;
 
+    private String description; 
+
     // --- Getters and Setters ---
     // These methods allow other layers (like repositories and services) to read and modify the row values safely.
 
     public Long getId() { 
         return id; 
     }
-
     public void setId(Long id) { 
         this.id = id; 
     }
@@ -43,5 +44,11 @@ public class CategoryEntity {
 
     public void setName(String name) { 
         this.name = name; 
+    }
+    public String getDescription(){
+        return description;
+    }
+    public void setDescription(String description){
+        this.description = description;
     }
 }
