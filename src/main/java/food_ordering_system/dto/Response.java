@@ -1,4 +1,4 @@
-package com.jumpstart.Menu_Entity.dto;
+package food_ordering_system.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

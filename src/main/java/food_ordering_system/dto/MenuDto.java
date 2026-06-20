@@ -1,4 +1,4 @@
-package com.jumpstart.Menu_Entity.dto;
+package food_ordering_system.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.DecimalMin;
@@ -18,18 +18,18 @@ public class MenuDto {
 
     private Long id;
 
-    @NotBlank
+    @NotBlank(message = "Name is required")
     private String name;
 
     private String description;
 
-    @NotNull
-    @DecimalMin("0.0")
+    @NotNull(message = "Price is required")
+    @DecimalMin(value = "0.0", message = "Price cannot be negative")
     private BigDecimal price;
 
     private String imageUrl;
 
-    @NotNull
+    @NotNull(message = "Category ID is required")
     private Long categoryId;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)

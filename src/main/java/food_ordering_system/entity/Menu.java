@@ -1,4 +1,4 @@
-package com.jumpstart.Menu_Entity.entity;
+package food_ordering_system.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -30,5 +30,5 @@ public class Menu {
 
     @ManyToOne
     @JoinColumn(name = "category_id")
-    private Category category;
+    private CategoryEntity category;
 }

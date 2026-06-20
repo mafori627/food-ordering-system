@@ -1,7 +1,7 @@
-package com.jumpstart.Menu_Entity.service;
+package food_ordering_system.service;
 
-import com.jumpstart.Menu_Entity.dto.MenuDto;
-import com.jumpstart.Menu_Entity.dto.Response;
+import food_ordering_system.dto.MenuDto;
+import food_ordering_system.dto.Response;
 import java.util.List;
 
 public interface MenuService {
